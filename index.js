@@ -1,16 +1,16 @@
 const taskcontainer = document.querySelector(".task__container");
 
 //Global store
-const globleStore = [];
+let globleStore = [];
 
 
 
 
-const newCard = ({id,imageurl,tasktitle,taskdescription,tasktype}) => ` <div class="col-md-6 col-lg-4" id=$(id)>
+const newCard = ({id,imageurl,tasktitle,taskdescription,tasktype}) => ` <div class="col-md-6 col-lg-4" id=${id}>
 <div class="card">
-  <div class="ca rd-header d-flex justify-content-end gap-2">
+  <div class="card-header d-flex justify-content-end gap-2">
     <button type="button" class="btn btn-outline-success"><i class="fas fa-pencil-alt"></i></button>
-    <button type="button" class="btn btn-outline-danger"><i class="fas fa-trash-alt"></i></button>
+    <button type="button"  id=${id} class="btn btn-outline-danger" onclick="deleteCard.apply(this, arguments)"> <i class="fas fa-trash-alt" id=${id} onclick="deleteCard.apply(this, arguments)" ></i></button>
   </div>
   <img src=${imageurl} class="card-img-top" alt="...">
   <div class="card-body">
@@ -24,7 +24,7 @@ const newCard = ({id,imageurl,tasktitle,taskdescription,tasktype}) => ` <div cla
 </div>`;
 
 const loadInitialTaskcards = () => {
-   const getInitailData = localStorage.tasky;
+   const getInitailData = localStorage.getItem("tasky");
   if(!getInitailData) return;
 
    const {cards}= JSON.parse(getInitailData);
@@ -38,6 +38,8 @@ const loadInitialTaskcards = () => {
 
 
 };
+
+const updateLocalStorage = () =>  localStorage.setItem("tasky",JSON.stringify({ cards :  globleStore }));
 
 
 const savechanges = () => {                                                                   //creating a function
@@ -56,15 +58,36 @@ const savechanges = () => {                                                     
 
 
     //add to local storage
-    localStorage.setItem("tasky",JSON.stringify({ cards :  globleStore }));
+    updateLocalStorage();
 
 
   };
-//ssue
 
 
+const deleteCard = (event) => {
+
+  //id 
+  event = window.event;
+  const targetID = event.target.id;
+  const tagName = event.target.tagName; //BUTTON
+  
+
+  //search the globalstore, remove the objecy which matches with the id
+  globleStore = globleStore.filter((cardObject) => cardObject.id !== targetID);
+
+   updateLocalStorage();
+
+
+   if(tagName === "BUTTON"){
+     
+     return taskcontainer.removeChild(event.target.parentNode.parentNode.parentNode);
+     
+   }
+  
+   return taskcontainer.removeChild(event.target.parentNode.parentNode.parentNode.parentNode);
+
+};
 
 //Fratures
-//Delete modal feture
 //open task
 //Edit task
