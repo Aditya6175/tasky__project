@@ -40,9 +40,9 @@ const loadInitialTaskcards = () => {
 };
 
 
-const savechanges = () => {
-    const taskdata = {
-        id: `${Date.now()}`, //unique number for id
+const savechanges = () => {                                                                   //creating a function
+    const taskdata = {                                                                       //created an object
+        id: `${Date.now()}`,                                                                //unique number for id.Calling Date object and .now method
         imageurl:document.getElementById("Imageurl").value,
         tasktitle:document.getElementById("tasktitle").value,
         tasktype:document.getElementById("tasktype").value,
@@ -53,10 +53,14 @@ const savechanges = () => {
 
     taskcontainer.insertAdjacentHTML("beforeend", creatNewCard);
     globleStore.push(taskdata);
+
+
     //add to local storage
     localStorage.setItem("tasky",JSON.stringify({ cards :  globleStore }));
+
+
   };
-//issues
+//ssue
 
 
 
